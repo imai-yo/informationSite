@@ -1,0 +1,27 @@
+.modalContainer {
+  height: 600px;
+  width: 400px;
+  position: absolute;
+  top: calc(50% - 300px);
+  left: calc(50% - 200px);
+  background-color: white;
+  border-radius: 10px;
+  z-index: 100;
+
+  .modalItem {
+    display: flex;
+    margin-bottom: 10px;
+    span {
+      width: 100px;
+    }
+  }
+}
+
+.shadow {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

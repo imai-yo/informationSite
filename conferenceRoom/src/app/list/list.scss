@@ -1,0 +1,54 @@
+.page-container {
+  height: 100%;
+  display: flex;
+}
+
+.calendar-area {
+  width: 280px;
+  border-right: 1px solid #ddd;
+  background-color: #f8f9fa;
+
+  .mat-calendar {
+  }
+}
+
+.schedule-area {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 6px 8px;
+}
+
+.time-header {
+  width: 80px;
+  background-color: #fafafa;
+}
+
+.room-header {
+  background-color: #f1f3f5;
+  font-weight: bold;
+}
+
+.time-cell {
+  background-color: #fafafa;
+  width: 80px;
+}
+
+.room-cell {
+  cursor: pointer;
+}
+
+.room-cell:hover {
+  background-color: #f0f8ff;
+}
