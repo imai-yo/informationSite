@@ -1,0 +1,66 @@
+{
+  "name": "meetingRoom-bff",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "meetingRoom-bff/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": ["--node-env=production"],
+        "cwd": "meetingRoom-bff"
+      },
+      "configurations": {
+        "development": {
+          "args": ["--node-env=development"]
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/meetingRoom-bff/package.json",
+        "{workspaceRoot}/dist/meetingRoom-bff/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": ["{workspaceRoot}/dist/meetingRoom-bff/workspace_modules"],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "meetingRoom-bff:build",
+        "runBuildTargetDependencies": false,
+        "watch": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "meetingRoom-bff:build:development"
+        },
+        "production": {
+          "buildTarget": "meetingRoom-bff:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}

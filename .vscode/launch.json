@@ -14,17 +14,14 @@
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": [
-        "${workspaceFolder}/apps/api/dist/**/*.(m|c|)js",
-        "!**/node_modules/**"
-      ]
+      "outFiles": ["${workspaceFolder}/apps/api/dist/**/*.(m|c|)js", "!**/node_modules/**"]
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug conferenceRoom-bff with Nx",
+      "name": "Debug meetingRoom-bff with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["nx", "serve", "conferenceRoom-bff"],
+      "runtimeArgs": ["nx", "serve", "meetingRoom-bff"],
       "env": {
         "NODE_OPTIONS": "--inspect=9230"
       },
@@ -32,10 +29,7 @@
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": [
-        "${workspaceFolder}/conferenceRoom-bff/dist/**/*.(m|c|)js",
-        "!**/node_modules/**"
-      ]
+      "outFiles": ["${workspaceFolder}/meetingRoom-bff/dist/**/*.(m|c|)js", "!**/node_modules/**"]
     }
   ]
 }
