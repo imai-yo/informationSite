@@ -49,8 +49,7 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "meetingRoom-bff:build",
-        "runBuildTargetDependencies": false,
-        "watch": true
+        "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {

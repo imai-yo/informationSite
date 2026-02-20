@@ -1,15 +1,40 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-modal',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './modal.html',
   styleUrl: './modal.scss',
+  standalone: true,
 })
 export class Modal {
-  @Input() modalData: any;
+  form: FormGroup;
+
+  @Input() set setModalData(modalData: any) {
+    this.form.patchValue(modalData);
+  }
   @Output() modalDisp: EventEmitter<boolean> = new EventEmitter();
-  closeModal() {
+  @Output() reserve: EventEmitter<any> = new EventEmitter();
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      roomId: [''],
+      roomName: [''],
+      meetingName: [''],
+      reserver: [''],
+      date: [''],
+      start_time: [''],
+      end_time: [''],
+    });
+  }
+
+  onCancel() {
+    this.modalDisp.emit();
+  }
+
+  onReserve() {
+    this.reserve.emit(this.form.value);
     this.modalDisp.emit();
   }
 }

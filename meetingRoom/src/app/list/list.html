@@ -2,7 +2,11 @@
 
 <div class="page-container">
   <div class="calendar-area">
-    <mat-calendar ngSkipHydration></mat-calendar>
+    <mat-calendar
+      ngSkipHydration
+      [selected]="vm.today"
+      (selectedChange)="onSelect($event)"
+    ></mat-calendar>
   </div>
 
   <div class="schedule-area">
@@ -21,11 +25,24 @@
             <td class="time-cell">{{ time }}</td>
             @for (room of vm.view.meetingRooms; track $index) {
               @if (vm.reserve[room.roomId + '_' + time]; as rs) {
-                <td class="room-cell" (click)="modalDisp(rs)">
-                  {{ `${rs.reserver} ${rs.conferenceName}` }}
+                <td class="room-cell" (click)="openModal(rs)">
+                  {{ `${rs.reserver} ${rs.meetingName}` }}
                 </td>
               } @else {
-                <td class="room-cell" (click)="modalDisp()"></td>
+                <td
+                  class="room-cell"
+                  (click)="
+                    openModal({
+                      roomId: room.roomId,
+                      roomName: room.roomName,
+                      meetingName: '',
+                      date: vm.today,
+                      reserver: '',
+                      start_time: time,
+                      end_time: '',
+                    })
+                  "
+                ></td>
               }
             }
           </tr>
@@ -36,5 +53,9 @@
 </div>
 
 @if (vm.modalFlg) {
-  <app-modal [modalData]="vm.modalData" (modalDisp)="modalDisp()"></app-modal>
+  <app-modal
+    [setModalData]="vm.modalData"
+    (modalDisp)="closeModal()"
+    (reserve)="reserve($event)"
+  ></app-modal>
 }

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
 import { ApiCoreService } from '../../../api/api-core.service';
 import { forkJoin, map, of } from 'rxjs';
@@ -9,27 +9,34 @@ export class ScheduleController {
     private readonly api: ApiCoreService,
     private readonly scheduleService: ScheduleService,
   ) {}
+
+  /** 初期データ取得 */
   @Get('firstView')
-  getFirstView() {
+  getFirstView(@Query() prm: any) {
     const initData$ = this.api.getJsonData<any>('init-data');
 
-    const reserve$ = this.api.getJsonData<any>('reservations', {
-      date: '2026-02-14',
+    const reserve$ = this.api.getJsonData<any>('reservations/get', {
+      date: prm.date,
     });
 
     return forkJoin([initData$, reserve$]).pipe(
-      map(([initData, reserve]) => this.scheduleService.editFirstView(initData, reserve)),
+      map(([initData, reserve]) => this.scheduleService.editFirstView(prm.date, initData, reserve)),
     );
   }
 
-  @Get('reserve')
-  getReserve() {
-    const data = {};
+  /** 予約の取得 */
+  @Get('get')
+  getReserve(@Query() prm: any) {
+    const reserve$ = this.api.getJsonData<any>('reservations/get', {
+      date: prm.date,
+    });
 
-    const result = {
-      data,
-    };
+    return forkJoin([reserve$]).pipe(map(([reserve]) => this.scheduleService.editReserve(reserve)));
+  }
 
-    return result;
+  /** 予約の追加 */
+  @Post('add')
+  postReserve(@Body() body: any) {
+    return this.api.postJsonData('reservations/add', body);
   }
 }

@@ -14,4 +14,9 @@ export class ApiCoreService {
     const url = this.apiDomain + path + (params ? '?' + params : '');
     return this.httpService.get(url).pipe(map((res: AxiosResponse) => res.data));
   }
+
+  postJsonData<T>(path: string, body?: any): Observable<T> {
+    const url = this.apiDomain + path;
+    return this.httpService.post(url, body).pipe(map((res: AxiosResponse<T>) => res.data));
+  }
 }

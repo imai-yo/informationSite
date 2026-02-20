@@ -1,38 +1,44 @@
 <div>
-  <div class="shadow" (click)="closeModal()"></div>
+  <div class="shadow" (click)="onCancel()"></div>
   <div class="modalContainer">
     <h3>会議室予約</h3>
-    <ul>
-      <li class="modalItem">
-        <span>会議室</span>
-        <div>{{ modalData?.roomName }}</div>
-      </li>
-      <li class="modalItem">
-        <span>会議名</span>
-        <div>{{ modalData?.conferenceName }}</div>
-      </li>
-      <li class="modalItem">
-        <span>予約者名</span>
-        <div>{{ modalData?.reserver }}</div>
-      </li>
-      <li class="modalItem">
-        <span>日付</span>
-        <div>{{ modalData?.date }}</div>
-      </li>
-      <li class="modalItem">
-        <span>開始時間</span>
-        <div>{{ modalData?.startTime }}</div>
-        <div></div>
-      </li>
-      <li class="modalItem">
-        <span>終了時間</span>
-        <div>{{ modalData?.endTime }}</div>
-      </li>
-    </ul>
-
+    <form [formGroup]="form">
+      <ul>
+        <li class="modalItem">
+          <span>会議室</span>
+          <div>{{ form.value?.roomName }}</div>
+        </li>
+        <li class="modalItem">
+          <span>会議名</span>
+          <input type="text" formControlName="meetingName" />
+        </li>
+        <li class="modalItem">
+          <span>予約者名</span>
+          <input type="text" formControlName="reserver" />
+        </li>
+        <li class="modalItem">
+          <span>日付</span>
+          <!-- <input type="text" formControlName="date" /> -->
+          <div>{{ form.value?.date }}</div>
+        </li>
+        <li class="modalItem">
+          <span>開始時間</span>
+          <input type="text" formControlName="start_time" />
+          <div></div>
+        </li>
+        <li class="modalItem">
+          <span>終了時間</span>
+          <input type="text" formControlName="end_time" />
+        </li>
+      </ul>
+    </form>
     <div class="actions">
-      <button (click)="closeModal()">キャンセル</button>
-      <button>予約する</button>
+      <button (click)="onCancel()">キャンセル</button>
+      <button (click)="onReserve()">予約する</button>
+    </div>
+    <div>
+      <button>予約変更(工事中)</button>
+      <button>予約取消(工事中)</button>
     </div>
   </div>
 </div>
