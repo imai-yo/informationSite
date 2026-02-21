@@ -16,9 +16,11 @@ export class Modal {
   }
   @Output() modalDisp: EventEmitter<boolean> = new EventEmitter();
   @Output() reserve: EventEmitter<any> = new EventEmitter();
+  @Output() delete: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
+      reservationId: [''],
       roomId: [''],
       roomName: [''],
       meetingName: [''],
@@ -36,5 +38,9 @@ export class Modal {
   onReserve() {
     this.reserve.emit(this.form.value);
     this.modalDisp.emit();
+  }
+
+  onDelete() {
+    this.delete.emit(this.form.value.reservationId);
   }
 }

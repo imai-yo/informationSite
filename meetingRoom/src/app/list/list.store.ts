@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { first, Observable, switchMap, tap } from 'rxjs';
+import { first, Observable, skip, switchMap, tap, withLatestFrom } from 'rxjs';
 import { HttpService } from '../../../service/http.service';
 
 export interface ListState {
@@ -31,12 +31,18 @@ export class ListStore extends ComponentStore<ListState> {
     )();
   }
 
+  /** 画面データ */
   readonly view$: Observable<any> = this.select(({ view }) => view);
-  readonly today$: Observable<any> = this.select(({ today }) => today);
+  /** 選択日付データ(初回は当日が登録) */
+  readonly today$: Observable<string> = this.select(({ today }) => today);
+  /** 予約情報データ */
   readonly reserve$: Observable<any> = this.select(({ reserve }) => reserve);
+  /** モーダル表示フラグ */
   readonly modalFlg$: Observable<any> = this.select(({ modalFlg }) => modalFlg);
+  /** モーダルデータ */
   readonly modalData$: Observable<any> = this.select(({ modalData }) => modalData);
 
+  /** ビューモデル */
   readonly vm$: Observable<any> = this.select(
     this.view$,
     this.today$,
@@ -79,7 +85,7 @@ export class ListStore extends ComponentStore<ListState> {
     reserve: reserve,
   }));
 
-  /** 予約情報の取得 */
+  /** 予約登録の送信 */
   readonly postReserve = this.effect<any>(arg$ =>
     arg$.pipe(
       switchMap(arg => {
@@ -88,6 +94,28 @@ export class ListStore extends ComponentStore<ListState> {
       tap(x => {
         return this.setReserve(x);
       }),
+    ),
+  );
+
+  readonly deleteReserve = this.effect<any>(arg$ =>
+    arg$.pipe(
+      withLatestFrom(this.today$),
+      switchMap(([reserveId, today]) => {
+        return this.http
+          .deleteReserve(reserveId)
+          .pipe(switchMap(() => this.http.getReserve(today)));
+      }),
+      tap(x => {
+        return this.setReserve(x);
+      }),
+    ),
+  );
+
+  readonly scheduleChange = this.effect<void>(() =>
+    this.today$.pipe(
+      skip(1),
+      switchMap(date => this.http.getReserve(date)),
+      tap(x => this.setReserve(x)),
     ),
   );
 }

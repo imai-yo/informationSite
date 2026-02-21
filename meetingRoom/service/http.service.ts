@@ -27,4 +27,9 @@ export class HttpService {
     const screen = 'add';
     return this.http.post(this.apiUrl + screen, prm);
   }
+
+  deleteReserve(reserveId: string) {
+    const screen = 'delete';
+    return this.http.delete(this.apiUrl + screen + '/' + reserveId);
+  }
 }

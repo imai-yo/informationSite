@@ -19,4 +19,10 @@ export class ApiCoreService {
     const url = this.apiDomain + path;
     return this.httpService.post(url, body).pipe(map((res: AxiosResponse<T>) => res.data));
   }
+
+  deleteJsonData<T>(path: string, query?: any): Observable<T> {
+    const params = new URLSearchParams(query);
+    const url = this.apiDomain + path + (params ? '?' + params : '');
+    return this.httpService.delete(url).pipe(map((res: AxiosResponse) => res.data));
+  }
 }

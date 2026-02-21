@@ -25,7 +25,7 @@
             <td class="time-cell">{{ time }}</td>
             @for (room of vm.view.meetingRooms; track $index) {
               @if (vm.reserve[room.roomId + '_' + time]; as rs) {
-                <td class="room-cell" (click)="openModal(rs)">
+                <td class="room-cell reserved" (click)="openModal(rs)">
                   {{ `${rs.reserver} ${rs.meetingName}` }}
                 </td>
               } @else {
@@ -57,5 +57,6 @@
     [setModalData]="vm.modalData"
     (modalDisp)="closeModal()"
     (reserve)="reserve($event)"
+    (delete)="deleteReserve($event)"
   ></app-modal>
 }

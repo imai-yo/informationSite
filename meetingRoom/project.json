@@ -19,7 +19,7 @@
             "input": "meetingRoom/public"
           }
         ],
-        "styles": ["meetingRoom/src/styles.css"],
+        "styles": ["meetingRoom/src/styles.scss"],
         "server": "meetingRoom/src/main.server.ts",
         "ssr": {
           "entry": "meetingRoom/src/server.ts"

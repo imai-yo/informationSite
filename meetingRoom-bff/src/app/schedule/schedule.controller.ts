@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
 import { ApiCoreService } from '../../../api/api-core.service';
 import { forkJoin, map, of } from 'rxjs';
@@ -38,5 +38,11 @@ export class ScheduleController {
   @Post('add')
   postReserve(@Body() body: any) {
     return this.api.postJsonData('reservations/add', body);
+  }
+
+  /** 予約の削除 */
+  @Delete('delete/:id')
+  deleteReserve(@Param('id') id: string) {
+    return this.api.deleteJsonData(`reservations/delete/${id}`);
   }
 }

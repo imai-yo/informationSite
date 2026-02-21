@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+li {
+  list-style: none;
+}
+
+.mat-calendar {
+  .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border: none !important;
+  }
+
+  .mat-calendar-body-active {
+    border-radius: 50%;
+    background-color: aquamarine !important;
+  }
+}

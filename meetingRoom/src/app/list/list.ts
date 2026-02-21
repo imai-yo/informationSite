@@ -55,6 +55,11 @@ export class List implements AfterViewInit {
 
     this.store.postReserve(prm);
   }
+
+  deleteReserve(reserveId: string) {
+    this.store.deleteReserve(reserveId);
+    this.closeModal();
+  }
 }
 
 /** ３０分加えた時刻を返却する */
